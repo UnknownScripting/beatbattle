@@ -15,23 +15,19 @@ def home():
     return render_template('home.html')
 
 @app.route('/settings')
-def home():
-    return render_template('settings.html')
-
-@app.route('/settings')
-def home():
+def settings():
     return render_template('settings.html')
 
 @app.route('/waiting')
-def home():
+def waiting():
     return render_template('waiting_room.html')
 
 @app.route('/game_room')
-def home():
+def game_room():
     return render_template('game_room.html')
 
 @app.route('/stage')
-def home():
+def stage():
     return render_template('stage.html')
 
 if __name__ == '__main__':
