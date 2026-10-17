@@ -2,13 +2,37 @@ from flask import Flask, render_template
 
 app = Flask(__name__) #Creates one empty web application
 
-@app.route('/')
-def index():
-    return render_template('index.html') #when user come to this page, the server sends index.html to the user
-
 @app.route('/login')
 def login():
     return render_template('login.html')
+
+@app.route('/')
+def main_page():
+    return render_template('main.html') #when user come to this page, the server sends index.html to the user
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
+@app.route('/settings')
+def home():
+    return render_template('settings.html')
+
+@app.route('/settings')
+def home():
+    return render_template('settings.html')
+
+@app.route('/waiting')
+def home():
+    return render_template('waiting_room.html')
+
+@app.route('/game_room')
+def home():
+    return render_template('game_room.html')
+
+@app.route('/stage')
+def home():
+    return render_template('stage.html')
 
 if __name__ == '__main__':
     app.run(debug=True) #run the web app
