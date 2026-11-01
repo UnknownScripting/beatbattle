@@ -1,11 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">a
+    <title>Counterpoint — Log In</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chrome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 </head>
-<body>
-    <h1>Login</h1>
+<body class="login-page">
+
+    {% include '_chrome.html' %}
+
+    <div class="clef clef-treble" aria-hidden="true">𝄞</div>
+    <div class="clef clef-bass"   aria-hidden="true">𝄢</div>
+    <div class="clef clef-tenor"  aria-hidden="true">𝄡</div>
+
+    <header class="login-title">
+        <h1 class="brand-name">Counterpoint</h1>
+    </header>
+
+    <main id="auth-screen">
+        <div class="info-box" id="login-box">
+            <div class="log-sign-text"><h1>Log In</h1></div>
+            <h2>Username</h2>
+            <input id="login-userid-input" type="text" placeholder="Enter your username">
+            <h2>Password</h2>
+            <input id="login-password-input" type="password" placeholder="Enter your password">
+            <div class="log-sign-btn"><button id="login-button">Log In</button></div>
+            <div class="switch-text">No account? <button class="link-btn" id="signup-show-button">Sign Up</button></div>
+        </div>
+
+        <div class="info-box hidden" id="signup-box">
+            <div class="log-sign-text"><h1>Sign Up</h1></div>
+            <h2>Username</h2>
+            <input id="signup-userid-input" type="text" placeholder="Choose a username">
+            <h2>Email</h2>
+            <input id="signup-email-input" type="email" placeholder="Enter your email">
+            <h2>Password</h2>
+            <input id="signup-password-input" type="password" placeholder="Choose a password">
+            <div class="log-sign-btn"><button id="signup-button">Sign Up</button></div>
+            <div class="switch-text">Already have an account? <button class="link-btn" id="login-show-button">Log In</button></div>
+        </div>
+    </main>
 </body>
 </html>

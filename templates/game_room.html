@@ -3,8 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Game Room</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chrome.css') }}">
+    <style>
+        body { margin: 0; }
+        .room { padding: 8px; }
+    </style>
 </head>
 <body>
+    {% include '_chrome.html' %}
+    <main class="room">
     <h1>Game:</h1>
+    <div id="score">
+
+    </div>
+    <button onclick = "addNote('c/4')">C</button>
+    <button onclick = "addNote('d/4')">D</button>
+    <button onclick = "addNote('e/4')">E</button>
+    <button onclick = "addNote('f/4')">F</button>
+    <button onclick = "addNote('g/4')">G</button>
+    <button onclick = "addNote('a/4')">A</button>
+    <button onclick = "addNote('b/4')">B</button>
+    <br><br>
+    <button onclick = "addNote('c#/4')">C#</button>
+    <button onclick = "addNote('d#/4')">D#</button>
+    <button onclick = "addNote('f#/4')">F#</button>
+    <button onclick = "addNote('g#/4')">G#</button>
+    <button onclick = "addNote('a#/4')">A#</button>
+
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
+    <script>
+        const notes = [];
+        function drawScore() {
+            const {Renderer, Stave, StaveNote, Voice, Formatter} = Vex.Flow;
+            const output = document.getElementById('score');
+            output.innerHTML = '' //ensuring we have nothing int he div score
+            const renderer = new Renderer(output, Renderer.Backends.SVG);
+            renderer.resize(570, 175); //w, h
+            const context = renderer.getContext();
+
+            const stave = new Stave(15, 35, 535) //hor starting point, vert starting point, width of staff
+            stave.addClef('treble').addTimeSignature('4/4');
+            stave.setContext(context).draw();
+
+            //takes eveyr note stored in the ntes list and converts it into a vexflow note
+            const staveNotes = notes.map(key => new StaveNote({keys: [key], duration: 'q'}));
+            while (staveNotes.length < 4) {
+                staveNotes.push(new StaveNote({keys: ['b/4'], duration: ['qr']}));
+            }
+
+            const voice = new Voice({num_beats: 4, beat_value: 4});
+            voice.addTickables(staveNotes);
+
+            //arranging the spacing of notes depending on the size of the music sheet
+            new Formatter().joinVoices([voice]).format([voice], 390);
+            voice.draw(context, stave); //update the screen
+        }
+        function addNote(key){
+            notes.push(key); //add given key into the list (notes)
+            drawScore();
+        }
+        drawScore();
+    </script>
 </body>
 </html>
