@@ -1,0 +1,509 @@
+/* ===== Counterpoint - profile ===== */
+/* Structure follows a Steam profile: dark slate ground, two-tone panels with
+   header strips, an identity banner, a narrow right rail, square corners,
+   small type, high density. Accent is the game's gold, not Steam's cyan. */
+
+
+:root {
+  --body:       #1b2838;   /* page ground */
+  --surface:    #1e2f42;   /* content surface - marks validated against this */
+  --banner:     #203044;
+  --line:       #2b4157;
+  --shade:      #1a2938;   /* table row banding */
+
+  --ink:    #d6e0ea;
+  --ink-2:  #93a3b4;
+  --ink-3:  #6f8193;
+
+  /* the three theme colours, purer than before */
+  --yellow: #e8c33a;
+  --blue:   #3576e4;
+  --red:    #d9403a;
+
+  /* data marks - all six checks pass against --surface */
+  --win:   #ad9418;
+  --draw:  #3576e4;
+  --loss:  #d9403a;
+
+  /* page bands: each hue darkened on its own axis, edges hard */
+  --band-red:  #35141c;
+  --band-gold: #322b12;
+  --band-blue: #152542;
+}
+
+* { box-sizing: border-box; }
+
+body.profile-page {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--body);
+  background-image:
+    repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, .018) 0 1px, transparent 1px 46px),
+    linear-gradient(90deg,
+      var(--band-red)  0 40%,
+      var(--band-gold) 40% 60%,
+      var(--band-blue) 60% 100%);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ----- identity banner ----- */
+
+.banner {
+  position: relative;
+  overflow: hidden;
+  background: var(--banner);
+}
+
+/* three translucent voices weaving across the banner */
+.weave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.banner-in {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+
+/* avatar on a thin mat, the way Steam frames a portrait */
+.frame {
+  flex: 0 0 auto;
+  padding: 3px;
+  background: var(--surface);
+  animation: aura 4.5s ease-in-out infinite;
+}
+
+/* a slight breathing glow - 10px to 20px, low alpha */
+@keyframes aura {
+  0%, 100% { box-shadow: 0 0 10px rgba(201, 164, 74, .16); }
+  50%      { box-shadow: 0 0 21px rgba(201, 164, 74, .34); }
+}
+
+.portrait {
+  width: 96px;
+  height: 96px;
+  background: var(--red);
+  color: #f4f7fa;
+  font-size: 44px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.who { flex: 1 1 auto; min-width: 0; }
+
+.who-name {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.who-handle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.who-title {
+  margin: 4px 0 10px;
+  font-size: 12.5px;
+  color: var(--yellow);
+}
+
+.who-meta {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 2px 10px;
+  justify-content: start;
+  margin: 0;
+  font-size: 12px;
+}
+
+.who-meta dt { color: var(--ink-3); }
+.who-meta dd { margin: 0; color: var(--ink-2); }
+
+.badge {
+  flex: 0 0 auto;
+  text-align: center;
+  padding: 10px 18px;
+  background: var(--surface);
+}
+
+.badge-key {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.badge-num {
+  display: block;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--yellow);
+}
+
+.badge-sub {
+  display: block;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+/* ----- columns ----- */
+
+.cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 236px;
+  gap: 14px;
+  padding-top: 18px;
+  padding-bottom: 48px;
+  align-items: start;
+}
+
+/* ----- content surfaces ----- */
+/* One surface per column; sections inside are divided by rules, not boxed
+   separately. */
+
+.box {
+  background: var(--surface);
+}
+
+.sec + .sec { border-top: 1px solid var(--line); }
+
+.sec > h2 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0;
+  padding: 13px 13px 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.sec > h2 .note {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.body { padding: 11px 13px 15px; }
+.body.flush { padding: 11px 0 0; }
+
+
+/* ----- figures ----- */
+
+.figs { display: flex; }
+
+.fig {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 11px 8px;
+  text-align: center;
+  border-left: 1px solid var(--line);
+}
+
+.fig:first-child { border-left: 0; }
+
+.fig b {
+  display: block;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.fig b.hot { color: var(--yellow); }
+
+.fig span {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+/* ----- bars ----- */
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  height: 150px;
+  border-bottom: 1px solid var(--line);
+}
+
+.col {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 3px;
+}
+
+.stack {
+  width: min(100%, 34px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.sg { width: 100%; }
+
+/* 2px surface gap between stacked segments - a border, so the segment
+   heights still total exactly 100% and nothing is clipped */
+.sg + .sg { border-top: 2px solid var(--surface); }
+
+.sg-win  { background: var(--win); }
+.sg-draw { background: var(--draw); }
+.sg-loss { background: var(--loss); }
+
+.col-num { font-size: 11px; color: var(--ink-2); }
+.col-key { font-size: 11px; color: var(--ink-3); }
+
+.key {
+  display: flex;
+  gap: 16px;
+  list-style: none;
+  margin: 11px 0 0;
+  padding: 0;
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+
+.key li { display: flex; align-items: center; gap: 6px; }
+
+.sw {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  display: inline-block;
+}
+
+.sw-win  { background: var(--win); }
+.sw-draw { background: var(--draw); }
+.sw-loss { background: var(--loss); }
+
+/* ----- recent games table ----- */
+
+.games {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.games th, .games td {
+  text-align: left;
+  padding: 8px 11px;
+  font-weight: 400;
+}
+
+.games .r { text-align: right; }
+
+.games thead th {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.games tbody tr { border-bottom: 1px solid #140a0d; }
+.games tbody tr:nth-child(even) { background: var(--shade); }
+
+/* result shown as a letter flag plus a coloured left edge - never colour alone */
+.games tbody th {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+}
+
+.g-flag {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #16202c;
+}
+
+.g-w .g-flag { background: var(--win); }
+.g-d .g-flag { background: var(--draw); }
+.g-l .g-flag { background: var(--loss); }
+
+.g-w { box-shadow: inset 3px 0 0 var(--win); }
+.g-d { box-shadow: inset 3px 0 0 var(--draw); }
+.g-l { box-shadow: inset 3px 0 0 var(--loss); }
+
+.g-piece { color: var(--ink-2); }
+.g-score { color: var(--ink); font-variant-numeric: tabular-nums; }
+.g-date  { color: var(--ink-3); white-space: nowrap; }
+
+/* ----- donut ----- */
+
+.donut {
+  display: block;
+  width: 118px;
+  height: 118px;
+  margin: 0 auto 6px;
+}
+
+.d-num, .d-key {
+  text-anchor: middle;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.d-num { font-size: 20px; fill: var(--ink); }
+
+.d-key {
+  font-size: 11px;
+  fill: var(--ink-3);
+}
+
+/* ----- small tables in the rail ----- */
+
+.split, .rows {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.split th, .split td,
+.rows th,  .rows td {
+  text-align: left;
+  padding: 6px 0;
+  font-weight: 400;
+  border-bottom: 1px solid #3a2227;
+}
+
+.rows th, .rows td { padding: 7px 11px; }
+
+.split .r, .rows .r { text-align: right; font-variant-numeric: tabular-nums; }
+.muted { color: var(--ink-3); }
+
+.split th { display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
+.rows  th { color: var(--ink-2); }
+
+.split tr:last-child th,
+.split tr:last-child td,
+.rows  tr:last-child th,
+.rows  tr:last-child td { border-bottom: 0; }
+
+.split .tot th { color: var(--ink); }
+
+/* ----- recent form ----- */
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chip {
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #16202c;
+}
+
+.chip-w { background: var(--win); }
+.chip-d { background: var(--draw); }
+.chip-l { background: var(--loss); }
+
+.form-note {
+  margin: 9px 0 0;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+/* ----- narrow ----- */
+
+@media (max-width: 860px) {
+  .cols { grid-template-columns: 1fr; }
+  .col-side { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+  .col-side .box { margin-bottom: 0; }
+}
+
+@media (max-width: 620px) {
+  .banner-in { flex-wrap: wrap; }
+  .badge { width: 100%; }
+  .col-side { grid-template-columns: 1fr; }
+  .g-piece { display: none; }
+}
+
+/* ----- flame ----- */
+
+.flame {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: .72em;
+  transform-origin: 50% 85%;
+  animation: flicker 1.9s ease-in-out infinite;
+}
+
+.flame-sm { font-size: 11px; margin-right: 4px; }
+
+/* uneven timing so it reads as a flicker rather than a pulse */
+@keyframes flicker {
+  0%   { transform: scale(1)    rotate(0deg);    opacity: .92; }
+  22%  { transform: scale(1.09) rotate(-3deg);   opacity: 1;   }
+  41%  { transform: scale(.97)  rotate(2deg);    opacity: .88; }
+  63%  { transform: scale(1.06) rotate(-1.5deg); opacity: 1;   }
+  82%  { transform: scale(1)    rotate(2.5deg);  opacity: .94; }
+  100% { transform: scale(1)    rotate(0deg);    opacity: .92; }
+}
+
+.badge-num { display: flex; align-items: center; justify-content: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .frame, .flame { animation: none; }
+}
+
+/* ----- empty states ----- */
+
+.empty {
+  margin: 0;
+  padding: 10px 13px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.games .empty { text-align: left; }
+
+/* the donut's unfilled track, shown when there is nothing to plot */
+.track { stroke: var(--line); }

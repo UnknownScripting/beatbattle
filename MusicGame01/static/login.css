@@ -1,0 +1,249 @@
+/* ===== Counterpoint - login ===== */
+/* Same visual language as the profile: slate ground, panel with a header
+   strip, square corners, small plain type, gold as the single accent. */
+
+:root {
+  --body:       #1b2838;
+  --panel:      #1e2f42;
+  --panel-head: #26394f;
+  --field:      #16222f;
+  --line:       #2b4157;
+  --edge:       #16222f;
+
+  --ink:   #d6e0ea;
+  --ink-2: #93a3b4;
+  --ink-3: #6f8193;
+
+  /* the three theme colours, purer than before */
+  --yellow: #e8c33a;
+  --blue:   #3576e4;
+  --red:    #d9403a;
+
+  /* page bands: each hue darkened on its own axis, edges hard */
+  --band-red:  #3d1620;
+  --band-gold: #3a3116;
+  --band-blue: #182a4e;
+}
+
+* { box-sizing: border-box; }
+
+body.login-page {
+  margin: 0;
+  min-height: 100vh;
+  padding: 56px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  background-color: var(--body);
+  background-image:
+    /* faint staff lines, so the bands have some grain */
+    repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, .022) 0 1px, transparent 1px 46px),
+    linear-gradient(90deg,
+      var(--band-red)  0 40%,
+      var(--band-gold) 40% 60%,
+      var(--band-blue) 60% 100%);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* ----- top bar, pinned so the centred form below is unaffected ----- */
+
+.chrome {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 2;
+}
+
+/* ----- title ----- */
+
+.login-title {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.login-title .brand-name {
+  margin: 0;
+  font-size: clamp(34px, 6.5vw, 54px);
+  font-weight: 400;
+  letter-spacing: -.01em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+/* ----- clefs ----- */
+/* Glyphs come from Apple Symbols, which ships with macOS. */
+
+.clef {
+  position: fixed;
+  font-family: "Apple Symbols", "Segoe UI Symbol", "Noto Music", serif;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.clef-treble {
+  top: 50%;
+  left: 2vw;
+  transform: translateY(-50%);
+  font-size: clamp(280px, 68vh, 700px);
+  color: rgba(147, 163, 180, .075);
+}
+
+.clef-bass {
+  top: 50%;
+  right: 2vw;
+  transform: translateY(-50%);
+  font-size: clamp(280px, 68vh, 700px);
+  color: rgba(147, 163, 180, .075);
+}
+
+.clef-tenor {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(170px, 34vh, 340px);
+  color: rgba(232, 195, 58, .07);
+}
+
+/* ----- the card, built like a profile panel ----- */
+
+.info-box {
+  position: relative;
+  z-index: 1;
+  width: 332px;
+  max-width: 100%;
+  padding: 0 18px 18px;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+}
+
+/* header strip, bled out to the card edges */
+.log-sign-text {
+  margin: 0 -18px 16px;
+  padding: 8px 13px;
+  background: var(--panel-head);
+  border-bottom: 1px solid var(--edge);
+}
+
+.log-sign-text h1 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.info-box h2 {
+  margin: 13px 0 5px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+.info-box input {
+  width: 100%;
+  padding: 9px 11px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+
+.info-box input::placeholder { color: #5f7183; }
+
+.info-box input:focus {
+  outline: none;
+  border-color: var(--yellow);
+}
+
+/* ----- primary action ----- */
+
+.log-sign-btn { margin-top: 18px; }
+
+.log-sign-btn button {
+  width: 100%;
+  padding: 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #16202c;
+  background: var(--yellow);
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.log-sign-btn button:hover { background: #f0cf52; }
+
+/* arrow slides in from the left on hover or keyboard focus */
+.log-sign-btn button::before {
+  content: "\2192";
+  font-size: 15px;
+  line-height: 1;
+  opacity: 0;
+  margin-right: -15px;
+  transform: translateX(-6px);
+  transition: opacity .28s ease, margin-right .28s ease, transform .28s ease;
+}
+
+.log-sign-btn button:hover::before,
+.log-sign-btn button:focus-visible::before {
+  opacity: 1;
+  margin-right: 8px;
+  transform: translateX(0);
+}
+
+/* ----- switch between log in and sign up ----- */
+
+.switch-text {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.link-btn {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--yellow);
+  cursor: pointer;
+}
+
+.link-btn:hover { text-decoration: underline; }
+
+/* ----- form messages ----- */
+
+.msg {
+  margin-top: 13px;
+  padding: 8px 10px;
+  border-radius: 2px;
+  font-size: 12px;
+}
+
+.msg.ok  { background: #1b3327; color: #8fd0a6; }
+.msg.bad { background: #3a2022; color: #e8a09a; }
+
+.hidden { display: none; }
+
+@media (max-width: 860px) {
+  .clef-treble, .clef-bass { font-size: 42vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .log-sign-btn button::before { transition: none; }
+}

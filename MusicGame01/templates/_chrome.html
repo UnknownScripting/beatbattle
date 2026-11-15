@@ -1,0 +1,16 @@
+    <!-- site chrome -->
+    <header class="chrome">
+        <div class="wrap chrome-in">
+            <a class="brand" href="{{ url_for('main_page') }}">
+                <span class="brand-clef" aria-hidden="true">&#119070;</span>COUNTERPOINT
+            </a>
+            <nav class="chrome-nav">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('waiting') }}">Play</a>
+                {% if not hide_profile_link %}<a href="{{ url_for('profile') }}">Profile</a>{% endif %}
+                <a href="{{ url_for('login') }}">Login</a>
+            </nav>
+            {% if player %}<span class="chrome-me">@{{ player.handle }}</span>{% endif %}
+            <a class="chrome-gear" href="{{ url_for('settings') }}" aria-label="Settings" title="Settings">&#9881;&#xFE0E;</a>
+        </div>
+    </header>

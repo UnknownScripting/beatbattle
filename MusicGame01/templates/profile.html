@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ player.display_name }} :: Counterpoint</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chrome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+</head>
+<body class="profile-page">
+
+    {% include '_chrome.html' %}
+
+    <!-- identity banner -->
+    <section class="banner">
+        <svg class="weave" viewBox="0 0 1200 170" preserveAspectRatio="none"
+             aria-hidden="true" focusable="false">
+            <path d="M-60.0 143.7 C-35.6 146.0 37.8 156.7 86.7 157.6 C135.6 158.4 184.4 151.7 233.3 148.8 C282.2 145.9 331.1 146.6 380.0 140.3 C428.9 134.0 477.8 123.0 526.7 110.9 C575.6 98.8 624.4 71.7 673.3 67.7 C722.2 63.7 771.1 76.5 820.0 86.9 C868.9 97.3 917.8 124.9 966.7 130.2 C1015.6 135.5 1064.4 126.4 1113.3 118.5 C1162.2 110.6 1235.6 88.7 1260.0 82.8" fill="none" stroke="#d9403a" stroke-width="2.4" stroke-opacity="0.22" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <path d="M-60.0 150.9 C-35.6 150.4 37.8 149.2 86.7 147.9 C135.6 146.7 184.4 145.6 233.3 143.1 C282.2 140.6 331.1 136.6 380.0 133.0 C428.9 129.4 477.8 123.6 526.7 121.6 C575.6 119.5 624.4 119.5 673.3 120.5 C722.2 121.4 771.1 134.5 820.0 127.3 C868.9 120.1 917.8 92.2 966.7 77.5 C1015.6 62.7 1064.4 44.6 1113.3 38.9 C1162.2 33.1 1235.6 42.3 1260.0 43.0" fill="none" stroke="#e8c33a" stroke-width="2.0" stroke-opacity="0.19" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <path d="M-60.0 136.7 C-35.6 137.7 37.8 141.3 86.7 142.7 C135.6 144.2 184.4 144.4 233.3 145.4 C282.2 146.3 331.1 150.3 380.0 148.3 C428.9 146.3 477.8 141.5 526.7 133.7 C575.6 125.8 624.4 114.7 673.3 101.4 C722.2 88.1 771.1 63.2 820.0 54.0 C868.9 44.8 917.8 40.9 966.7 46.2 C1015.6 51.4 1064.4 73.2 1113.3 85.5 C1162.2 97.7 1235.6 114.0 1260.0 119.8" fill="none" stroke="#3576e4" stroke-width="2.4" stroke-opacity="0.22" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <div class="wrap banner-in">
+            <div class="frame">
+                <div class="portrait" aria-hidden="true">{{ player.display_name[0]|upper }}</div>
+            </div>
+
+            <div class="who">
+                <h1 class="who-name">{{ player.display_name }}</h1>
+                <p class="who-handle">@{{ player.handle }}</p>
+                <p class="who-title">{{ player.title }}</p>
+                <dl class="who-meta">
+                    <dt>Joined</dt><dd>{{ player.joined }}</dd>
+                    <dt>Favourite</dt><dd>{{ player.favourite }}</dd>
+                    <dt>Record</dt><dd>{{ record.wins }}&ndash;{{ record.draws }}&ndash;{{ record.losses }}</dd>
+                </dl>
+            </div>
+
+            <div class="badge">
+                <span class="badge-key">Win streak</span>
+                <span class="badge-num">
+                    <span class="flame" aria-hidden="true">&#128293;</span>{{ player.streak }}
+                </span>
+                <span class="badge-sub">best {{ player.best_streak }}</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="wrap cols">
+
+        <!-- main column -->
+        <div class="col-main">
+          <div class="box">
+
+            <section class="sec">
+                <h2>Record<span class="note">{{ total }} games played</span></h2>
+<div class="body flush">
+                    <div class="figs">
+                        <div class="fig"><b>{{ total }}</b><span>Games</span></div>
+                        <div class="fig"><b>{{ record.wins }}</b><span>Wins</span></div>
+                        <div class="fig"><b>{{ record.draws }}</b><span>Draws</span></div>
+                        <div class="fig"><b>{{ record.losses }}</b><span>Losses</span></div>
+                        <div class="fig"><b class="hot">{{ win_rate }}%</b><span>Win rate</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="sec">
+                <h2>Results by month<span class="note">Apr &ndash; Sep</span></h2>
+<div class="body">
+                    <div class="bars" role="img" aria-label="Results per month, April to September">
+                        {% for m in months %}
+                        <div class="col">
+                            <div class="stack" style="height: {{ m.scale }}%">
+                                {% if m.losses %}<div class="sg sg-loss" style="height: {{ m.losses_h }}%"
+                                     title="{{ m.month }} &mdash; losses: {{ m.losses }}"></div>{% endif %}
+                                {% if m.draws %}<div class="sg sg-draw" style="height: {{ m.draws_h }}%"
+                                     title="{{ m.month }} &mdash; draws: {{ m.draws }}"></div>{% endif %}
+                                {% if m.wins %}<div class="sg sg-win" style="height: {{ m.wins_h }}%"
+                                     title="{{ m.month }} &mdash; wins: {{ m.wins }}"></div>{% endif %}
+                            </div>
+                            <span class="col-num">{{ m.played }}</span>
+                            <span class="col-key">{{ m.month }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <ul class="key">
+                        <li><i class="sw sw-win"></i>Wins</li>
+                        <li><i class="sw sw-draw"></i>Draws</li>
+                        <li><i class="sw sw-loss"></i>Losses</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="sec">
+                <h2>Recent games<span class="note">Last {{ matches|length }}</span></h2>
+<div class="body flush">
+                    <table class="games">
+                        <thead>
+                            <tr>
+                                <th scope="col">Opponent</th>
+                                <th scope="col">Piece</th>
+                                <th scope="col" class="r">Score</th>
+                                <th scope="col" class="r">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if not matches %}
+                            <tr><td class="empty" colspan="4">No games played yet</td></tr>
+                            {% endif %}
+                            {% for g in matches %}
+                            <tr class="g g-{{ g.result|lower }}">
+                                <th scope="row">
+                                    <span class="g-flag">{{ g.result }}</span>{{ g.opponent }}
+                                </th>
+                                <td class="g-piece">{{ g.piece }}</td>
+                                <td class="r g-score">{{ g.score }}</td>
+                                <td class="r g-date">{{ g.date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- right rail -->
+        <aside class="col-side">
+          <div class="box">
+
+            <section class="sec">
+                <h2>Result split</h2>
+<div class="body">
+                    <!-- r=54 matches the dash lengths computed in the route;
+                         display size is set in CSS, not by changing r -->
+                    <svg class="donut" viewBox="0 0 140 140" role="img"
+                         aria-label="Result split: {{ record.wins }} wins, {{ record.draws }} draws, {{ record.losses }} losses">
+                        {% if not total %}
+                        <circle class="track" cx="70" cy="70" r="54" fill="none" stroke-width="14"/>
+                        {% endif %}
+                        <g transform="rotate(-90 70 70)">
+                            {% for seg in donut %}
+                            <circle class="seg" cx="70" cy="70" r="54" fill="none"
+                                    stroke="{{ seg.colour }}" stroke-width="14"
+                                    stroke-dasharray="{{ seg.dash }}"
+                                    stroke-dashoffset="{{ seg.offset }}">
+                                <title>{{ seg.label }}: {{ seg.value }} ({{ seg.pct }}%)</title>
+                            </circle>
+                            {% endfor %}
+                        </g>
+                        <text class="d-num" x="70" y="67">{% if total %}{{ win_rate }}%{% else %}&ndash;{% endif %}</text>
+                        <text class="d-key" x="70" y="84">won</text>
+                    </svg>
+                    <table class="split">
+                        {% for seg in donut %}
+                        <tr>
+                            <th scope="row"><i class="sw" style="background: {{ seg.colour }}"></i>{{ seg.label }}</th>
+                            <td class="r">{{ seg.value }}</td>
+                            <td class="r muted">{{ seg.pct }}%</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="tot">
+                            <th scope="row">Total</th>
+                            <td class="r">{{ total }}</td>
+                            <td class="r muted">100%</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="sec">
+                <h2>Recent form</h2>
+<div class="body">
+                    {% if not recent %}
+                    <p class="empty">No games played yet</p>
+                    {% endif %}
+                    <ol class="form">
+                        {% for r in recent %}
+                        <li class="chip chip-{{ r|lower }}">
+                            <span aria-hidden="true">{{ r }}</span>
+                            <span class="sr-only">{{ {'W':'Win','D':'Draw','L':'Loss'}[r] }}</span>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    {% if recent %}<p class="form-note">Newest first</p>{% endif %}
+                </div>
+            </section>
+
+            <section class="sec">
+                <h2>Standing</h2>
+<div class="body flush">
+                    <table class="rows">
+                        <tr><th scope="row">Win rate</th><td class="r">{{ win_rate }}%</td></tr>
+                        <tr>
+                            <th scope="row">Current streak</th>
+                            <td class="r">
+                                <span class="flame flame-sm" aria-hidden="true">&#128293;</span>{{ player.streak }}W
+                            </td>
+                        </tr>
+                        <tr><th scope="row">Best streak</th><td class="r">{{ player.best_streak }}W</td></tr>
+                        <tr><th scope="row">Games played</th><td class="r">{{ total }}</td></tr>
+                    </table>
+                </div>
+            </section>
+          </div>
+        </aside>
+    </div>
+
+</body>
+</html>
