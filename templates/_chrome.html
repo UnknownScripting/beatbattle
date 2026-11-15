@@ -7,7 +7,7 @@
             <nav class="chrome-nav">
                 <a href="{{ url_for('home') }}">Home</a>
                 <a href="{{ url_for('waiting') }}">Play</a>
-                <a href="{{ url_for('profile') }}">Profile</a>
+                {% if not hide_profile_link %}<a href="{{ url_for('profile') }}">Profile</a>{% endif %}
                 <a href="{{ url_for('login') }}">Login</a>
             </nav>
             {% if player %}<span class="chrome-me">@{{ player.handle }}</span>{% endif %}

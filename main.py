@@ -9,7 +9,9 @@ def login():
 
 @app.route('/')
 def main_page():
-    return render_template('main.html') #when user come to this page, the server sends index.html to the user
+    # Placeholder until login is wired up - swap in the logged-in user's name.
+    username = 'Username'
+    return render_template('main.html', username=username) #when user come to this page, the server sends main.html to the user
 
 @app.route('/home')
 def home():
